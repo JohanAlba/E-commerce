@@ -1,3 +1,17 @@
-from django.shortcuts import render
+from rest_framework import viewsets, permissions
+from .models import Category, Product
+from .serializers import CategorySerializer, ProductSerializer
 
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class ProductViews(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    def get_permissions(self):
+        if self.action in ['list','retrive']:
+            return [permissions.AllowAny()]
+        return [permissions.IsAdminUser()]
 # Create your views here.
